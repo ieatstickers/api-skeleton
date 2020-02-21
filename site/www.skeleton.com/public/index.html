@@ -137,8 +137,8 @@
 
 		$('#auth-payload').html(JSON.stringify(authPayload, undefined, 2));
 
-		$('#auth-request').on('click', function() {
-
+		$('#auth-request').on('click', function(e) {
+			e.preventDefault();
 
       $('#auth-response').html('Making POST request to /auth...');
 
@@ -168,8 +168,8 @@
 
 		$('#get-user-payload').html(JSON.stringify(null, undefined, 2));
 
-		$('#get-user-request').on('click', function() {
-
+		$('#get-user-request').on('click', function(e) {
+      e.preventDefault();
 
       $('#get-user-response').html('Making request to GET:/user/1...');
 
@@ -201,7 +201,9 @@
 
 		$('#create-user-payload').html(JSON.stringify(createUserPayload, undefined, 2));
 
-		$('#create-user-request').on('click', function() {
+		$('#create-user-request').on('click', function(e) {
+
+      e.preventDefault();
 
       $('#create-user-response').html('Making request to POST:/user...');
 
@@ -228,7 +230,9 @@
 
 		$('#update-user-payload').html(JSON.stringify(updateUserPayload, undefined, 2));
 
-		$('#update-user-request').on('click', function() {
+		$('#update-user-request').on('click', function(e) {
+
+      e.preventDefault();
 
       $('#update-user-response').html('Making request to PUT:/user/1...');
 

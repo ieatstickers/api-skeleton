@@ -20,27 +20,27 @@ electra:
     connections:
       app:
         database: "app"
-        host: "cubex_mysql"
+        host: "skeleton_mysql"
         username: "root"
         password: "password"
       electra:
         database: "electra"
-        host: "cubex_mysql"
+        host: "skeleton_mysql"
         username: "root"
         password: "password"
       auth:
         database: "auth"
-        host: "cubex_mysql"
+        host: "skeleton_mysql"
         username: "root"
         password: "password"
       migration:
         default: true
         database: "app"
-        host: "cubex_mysql"
+        host: "skeleton_mysql"
         username: "root"
         password: "password"
       user:
         database: "user"
-        host: "cubex_mysql"
+        host: "skeleton_mysql"
         username: "root"
         password: "password"

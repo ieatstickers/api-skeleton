@@ -72,7 +72,7 @@ class DenyInvalidAuthTokensMiddleware implements MiddlewareInterface
     if (!$hasValidAuthToken)
     {
       throw (new ElectraUnauthorizedException('Unauthorized'))
-        ->addMetaData('endpoint', Classes::getClassName($endpoint))
+        ->addMetaData('endpoint', Classes::getClassName(get_class($endpoint)))
         ->addMetaData('token', ElectraJwtContext::getToken());
     }
 

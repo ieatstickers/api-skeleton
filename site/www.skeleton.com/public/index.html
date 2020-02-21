@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>API Example</title>
+	<link rel="stylesheet" type="text/css" href="http://www.skeleton.local/assets/css/styles.css">
+</head>
+<body>
+	<div class="page-container">
+
+		<div class="page-title">
+			API Example
+		</div>
+
+		<div class="section">
+			<div class="section__title">
+				<div>
+					POST:/auth
+				</div>
+				<div>
+					<a href="#" class="button" id="auth-request">Make Request</a>
+				</div>
+			</div>
+			<div class="section__body">
+				<div class="grid-container">
+					<div>
+						<h3>Example Payload:</h3>
+						<pre id="auth-payload"></pre>
+					</div>
+					<div>
+						<h3>Response:</h3>
+						<pre id="auth-response">Nothing to display</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="section__title">
+				<div>
+					GET:/user/{userId}
+				</div>
+				<div>
+					<a href="#" class="button" id="get-user-request">Make Request</a>
+				</div>
+			</div>
+			<div class="section__body">
+				<div class="grid-container">
+					<div>
+						<h3>Example Payload:</h3>
+						<pre id="get-user-payload"></pre>
+					</div>
+					<div>
+						<h3>Response:</h3>
+						<pre id="get-user-response">Nothing to display</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="section__title">
+				<div>
+					POST:/user
+				</div>
+				<div>
+					<a href="#" class="button" id="create-user-request">Make Request</a>
+				</div>
+			</div>
+			<div class="section__body">
+				<div class="grid-container">
+					<div>
+						<h3>Example Payload:</h3>
+						<pre id="create-user-payload"></pre>
+					</div>
+					<div>
+						<h3>Response:</h3>
+						<pre id="create-user-response">Nothing to display</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="section">
+			<div class="section__title">
+				<div>
+					PUT:/user/1
+				</div>
+				<div>
+					<a href="#" class="button" id="update-user-request">Make Request</a>
+				</div>
+			</div>
+			<div class="section__body">
+				<div class="grid-container">
+					<div>
+						<h3>Example Payload:</h3>
+						<pre id="update-user-payload"></pre>
+					</div>
+					<div>
+						<h3>Response:</h3>
+						<pre id="update-user-response">Nothing to display</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+	<script src="assets/js/phusion.js"></script>
+
+	<script type="text/javascript">
+
+    // Get the auth token out of local storage
+    let authToken = LocalStorage.get('auth_token');
+
+    // If we found an auth token
+    if (authToken && authToken.value)
+    {
+      // Set it to be included with every subsequent request
+      Http.onBeforeRequest((request) => {
+        request.headers['Authorization'] = 'Bearer ' + authToken.value;
+
+        return request;
+      })
+    }
+
+    /**
+     * POST:/auth
+     */
+
+    let authPayload = {
+      emailAddress: 'mike.burke@protected.net',
+	    password: 'password'
+    };
+
+		$('#auth-payload').html(JSON.stringify(authPayload, undefined, 2));
+
+		$('#auth-request').on('click', function() {
+
+
+      $('#auth-response').html('Making POST request to /auth...');
+
+
+			let promise = Http.post('http://api.skeleton.local/auth', authPayload);
+
+			promise.then(function(response) {
+				$('#auth-response').html(JSON.stringify(response.data, undefined, 2));
+        LocalStorage.set('auth_token', response.data.jwt);
+
+        // Set it to be included with every subsequent request
+        Http.onBeforeRequest((request) => {
+          request.headers['Authorization'] = 'Bearer ' + response.data.jwt;
+
+          return request;
+        })
+			});
+
+			promise.catch(function(response) {
+				$('#auth-response').html(JSON.stringify(response.data, undefined, 2));
+			});
+		});
+
+    /**
+     * GET:/user/{userId}
+     */
+
+		$('#get-user-payload').html(JSON.stringify(null, undefined, 2));
+
+		$('#get-user-request').on('click', function() {
+
+
+      $('#get-user-response').html('Making request to GET:/user/1...');
+
+			let promise = Http.get('http://api.skeleton.local/user/1');
+
+			promise.then(function(response) {
+				$('#get-user-response').html(JSON.stringify(response.data, undefined, 2));
+			});
+
+			promise.catch(function(response) {
+				$('#get-user-response').html(JSON.stringify(response.data, undefined, 2));
+			});
+
+    });
+
+    /**
+     * POST:/user
+     */
+
+    let createUserPayload = {
+      firstNames: 'Robert',
+      lastName: 'Roberts',
+      preferredName: 'Bob',
+	    dateOfBirth: '1988-02-10',
+	    emailAddress: 'something@gmail.com',
+	    password: 'password',
+
+    };
+
+		$('#create-user-payload').html(JSON.stringify(createUserPayload, undefined, 2));
+
+		$('#create-user-request').on('click', function() {
+
+      $('#create-user-response').html('Making request to POST:/user...');
+
+			let promise = Http.post('http://api.skeleton.local/user', createUserPayload);
+
+			promise.then(function(response) {
+				$('#create-user-response').html(JSON.stringify(response.data, undefined, 2));
+			});
+
+			promise.catch(function(response) {
+				$('#create-user-response').html(JSON.stringify(response.data, undefined, 2));
+			});
+
+    });
+
+    /**
+     * POST:/user
+     */
+
+    let updateUserPayload = {
+      id: 1,
+      firstNames: 'Michael James'
+    };
+
+		$('#update-user-payload').html(JSON.stringify(updateUserPayload, undefined, 2));
+
+		$('#update-user-request').on('click', function() {
+
+      $('#update-user-response').html('Making request to PUT:/user/1...');
+
+			let promise = Http.put('http://api.skeleton.local/user/1', updateUserPayload);
+
+			promise.then(function(response) {
+				$('#update-user-response').html(JSON.stringify(response.data, undefined, 2));
+			});
+
+			promise.catch(function(response) {
+				$('#update-user-response').html(JSON.stringify(response.data, undefined, 2));
+			});
+
+    });
+
+	</script>
+</body>
+</html>

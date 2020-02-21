@@ -1,0 +1,46 @@
+
+electra:
+
+  # electra/migrate
+  migrate:
+    migrationDirs:
+      # Auth Module
+      auth:
+        namespace: "Skeleton\\Module\\Auth\\Migration"
+        name: "Auth Module"
+        dirPath: "module/Auth/Migration"
+      # User Module
+      user:
+        namespace: "Skeleton\\Module\\User\\Migration"
+        name: "User Module"
+        dirPath: "module/User/Migration"
+
+  # electra/dal
+  dal:
+    connections:
+      app:
+        database: "app"
+        host: "cubex_mysql"
+        username: "root"
+        password: "password"
+      electra:
+        database: "electra"
+        host: "cubex_mysql"
+        username: "root"
+        password: "password"
+      auth:
+        database: "auth"
+        host: "cubex_mysql"
+        username: "root"
+        password: "password"
+      migration:
+        default: true
+        database: "app"
+        host: "cubex_mysql"
+        username: "root"
+        password: "password"
+      user:
+        database: "user"
+        host: "cubex_mysql"
+        username: "root"
+        password: "password"
